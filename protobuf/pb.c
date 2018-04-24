@@ -355,12 +355,16 @@ static int struct_unpack(lua_State *L)
             }
         case 'f':
             {
-                lua_pushnumber(L, (lua_Number)*(float*)unpack_fixed32(buffer, out));
+                float v = 0.0f;
+                memcpy((void*)&v, (void*)buffer, sizeof(float));
+                lua_pushnumber(L, (lua_Number)*(float*)unpack_fixed32((const uint8_t*)&v, out));
                 break;
             }
         case 'd':
             {
-                lua_pushnumber(L, (lua_Number)*(double*)unpack_fixed64(buffer, out));
+                double v = 0.0;
+                memcpy((void*)&v, (void*)buffer, sizeof(double));
+                lua_pushnumber(L, (lua_Number)*(double*)unpack_fixed64((const uint8_t*)&v, out));
                 break;
             }
         case 'I':
